@@ -1,0 +1,39 @@
+{
+  "search": [
+    {
+      "id": 1,
+      "name": "name1"
+    },
+    {
+      "id": 2,
+      "name": "name2"
+    },
+    {
+      "id": 3,
+      "name": "name3"
+    },
+    {
+      "id": 4,
+      "name": "name4"
+    },
+    {
+      "id": 5,
+      "name": "name5"
+    }
+  ],
+  "place": {
+    "id": 1,
+    "name": "name1",
+    "address": "address1",
+    "x": 37.7749295,
+    "y": 122.4194155,
+    "runtime": "runtime1",
+    "avg_rate": 4.8
+  },
+  "tags": {
+    "id": 1,
+    "tag1": "해충 문제",
+    "tag2": "불친절",
+    "tag3": "높은 가격"
+  }
+}
