@@ -10,6 +10,10 @@ class DetailViewModel {
   data = null;
   tags = null;
 
+  whatIsErunScore = false;
+  replyBarShow = false;
+  replyData = false;
+
   setData = (data: any) => {
     this.data = data;
   };
@@ -21,6 +25,18 @@ class DetailViewModel {
 
   setQuery = (query: string) => {
     this.query = query;
+  };
+
+  setWhatIsErunScore = (whatIsErunScore: boolean) => {
+    this.whatIsErunScore = whatIsErunScore;
+  };
+
+  setReplyBar = (commentId: number) => {
+    this.replyBarShow = true;
+  };
+
+  setReplyBarOff = () => {
+    this.replyBarShow = false;
   };
 
   submitSearch = () => {
