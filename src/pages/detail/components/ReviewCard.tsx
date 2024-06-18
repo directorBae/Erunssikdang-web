@@ -245,13 +245,19 @@ const ErunScoreNumber = styled.div`
   }
 `;
 
-const ReviewCard = () => {
+interface ReviewCardProps {
+  rate: number | null;
+  erunScore: number | null;
+  tags: { tag1: string; tag2: string; tag3: string } | null;
+}
+
+const ReviewCard = ({ rate, erunScore, tags }: ReviewCardProps) => {
   return (
     <ReviewCardContainer>
       <ReviewHeader>리뷰</ReviewHeader>
       <ReviewContent>
         <SummaryBox>
-          <AvgRating>-4.8</AvgRating>
+          <AvgRating>{"-" + rate}</AvgRating>
           <RateHeader>평균 평점</RateHeader>
           <SkullBox>
             <SkullImage src={Skull} />
@@ -263,7 +269,9 @@ const ReviewCard = () => {
         </SummaryBox>
         <SummaryBox>
           <TagCount>
-            <TagVertical tag1={"더러움"} tag2={"해충 문제"} tag3={"불친절"} />
+            {tags && (
+              <TagVertical tag1={tags.tag1} tag2={tags.tag2} tag3={tags.tag3} />
+            )}
             <CountContainer>
               <Count>
                 <GrayBar />
@@ -279,7 +287,7 @@ const ReviewCard = () => {
               </Count>
             </CountContainer>
           </TagCount>
-          <ErunScoreNumber>60.2</ErunScoreNumber>
+          <ErunScoreNumber>{erunScore}</ErunScoreNumber>
           <RateHeader>이런 Score</RateHeader>
         </SummaryBox>
       </ReviewContent>

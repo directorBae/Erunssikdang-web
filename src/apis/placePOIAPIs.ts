@@ -1,6 +1,18 @@
 import mockdata from "./MockData.json";
 
-const getPlacePOI = (id: number) => {
+interface Place {
+  id: number;
+  name: string;
+  address: string;
+  image: string;
+  x: number;
+  y: number;
+  runtime: string;
+  avg_rate: number;
+  erunScore: number;
+}
+
+const getPlacePOI = (id: number | null): Promise<Place> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(mockdata.place);

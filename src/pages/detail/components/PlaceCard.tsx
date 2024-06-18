@@ -169,12 +169,30 @@ const LocationContainer = styled.div`
   }
 `;
 
-const PlaceCard = () => {
+interface PlaceCardProps {
+  name: string;
+  rate: number;
+  x: number;
+  y: number;
+  address: string;
+  runtime: string;
+  image: string;
+}
+
+const PlaceCard = ({
+  name,
+  rate,
+  x,
+  y,
+  address,
+  runtime,
+  image,
+}: PlaceCardProps) => {
   return (
     <PlaceCardContainer>
-      <PlaceImage src="https://via.placeholder.com/300" />
+      <PlaceImage src={image} />
       <PlaceInfo>
-        <PlaceName>Place Name</PlaceName>
+        <PlaceName>{name}</PlaceName>
         <RateBox>
           <SkullBox>
             <SkullImage src={Skull} />
@@ -183,17 +201,15 @@ const PlaceCard = () => {
             <SkullImage src={Skull} />
             <SkullImage src={Skull} />
           </SkullBox>
-          <RateNumber>-4.5</RateNumber>
+          <RateNumber>{"-" + rate}</RateNumber>
         </RateBox>
         <DetailInfo>
           <DetailHead>상세정보</DetailHead>
-          <DetailContent>
-            {"위치 : 부산 수영구 민락동 175-22 2층(민락동)"}
-          </DetailContent>
-          <DetailContent>{"영업시간 : 오전 10:00 ~ 오후 9:00"}</DetailContent>
+          <DetailContent>{"위치 : " + address}</DetailContent>
+          <DetailContent>{"영업시간 : " + runtime}</DetailContent>
         </DetailInfo>
         <LocationContainer>
-          <KakaoMap lat={35.165} lng={129.07} />
+          <KakaoMap lat={y} lng={x} />
         </LocationContainer>
       </PlaceInfo>
     </PlaceCardContainer>

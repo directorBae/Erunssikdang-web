@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CommentBox from "./components/CommentsBox";
 import MenuBar from "../../components/menubar";
 import PlaceCard from "./components/PlaceCard";
 import ReplyBox from "./components/ReplyBox";
 import ReviewCard from "./components/ReviewCard";
+import { useSearchParams } from "react-router-dom";
+import getPlacePOI from "../../apis/placePOIAPIs";
+import getTagPOI from "../../apis/MLdataAPIs";
 
 const FullWidth = styled.div`
   width: 100vw;
@@ -109,24 +112,87 @@ const CommentsButton = styled.button`
   }
 `;
 
-const DetailView = () => {
+interface DetailViewProps {
+  vm: any;
+}
+
+const DetailView = ({ vm }: DetailViewProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchPlaceData = async (id: number | null) => {
+      const data = getPlacePOI(id);
+      return data;
+    };
+
+    const fetchTagData = async (id: number | null) => {
+      const tags = await getTagPOI(id);
+      return tags;
+    };
+
+    const idString = searchParams.get("id");
+    const id = idString ? parseInt(idString) : null;
+    setLoading(true);
+
+    Promise.all([fetchPlaceData(id), fetchTagData(id)])
+      .then((results) => {
+        vm.setData(results[0]);
+        vm.setTags(results[1]);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [searchParams, vm]);
+
   return (
     <div>
-      <MenuBar />
-      <FullWidth>
-        <ContentsSection>
-          <PlaceCard />
-          <ReviewCard />
-          <CommentsInputContainer>
-            <InputandButton>
-              <CommentsInput placeholder=" 리뷰를 작성해주세요. 좋은 리뷰는 등록이 자동 제한될 수 있습니다." />
-              <CommentsButton>리뷰쓰기</CommentsButton>
-            </InputandButton>
-          </CommentsInputContainer>
-          <CommentBox />
-          <ReplyBox />
-        </ContentsSection>
-      </FullWidth>
+      <MenuBar vm={vm} />
+      {loading ? (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "90vh",
+          }}
+        >
+          <div className="loader" />
+        </div>
+      ) : (
+        <FullWidth>
+          <ContentsSection>
+            {vm.data && (
+              <PlaceCard
+                name={vm.data.name}
+                rate={vm.data.avg_rate}
+                x={vm.data.x}
+                y={vm.data.y}
+                address={vm.data.address}
+                runtime={vm.data.runtime}
+                image={vm.data.image}
+              />
+            )}
+            {vm.data && vm.tags && (
+              <ReviewCard
+                rate={vm.data.avg_rate}
+                erunScore={vm.data.erunScore}
+                tags={vm.tags}
+              />
+            )}
+            <CommentsInputContainer>
+              <InputandButton>
+                <CommentsInput placeholder=" 리뷰를 작성해주세요. 좋은 리뷰는 등록이 자동 제한될 수 있습니다." />
+                <CommentsButton>리뷰쓰기</CommentsButton>
+              </InputandButton>
+            </CommentsInputContainer>
+            <CommentBox />
+            <ReplyBox />
+          </ContentsSection>
+        </FullWidth>
+      )}
     </div>
   );
 };

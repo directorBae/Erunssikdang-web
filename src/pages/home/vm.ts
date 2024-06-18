@@ -6,15 +6,16 @@ class HomeViewModel {
     makeAutoObservable(this);
   }
 
-  keyword = "";
+  query = "";
 
-  setKeyword = (keyword: string) => {
-    this.keyword = keyword;
+  setQuery = (query: string) => {
+    this.query = query;
   };
 
   submitSearch = () => {
-    routerStore.push("/search?query=" + this.keyword);
-    this.setKeyword("");
+    if (this.query === "") return;
+    routerStore.push("/search?query=" + this.query);
+    this.setQuery("");
   };
 }
 

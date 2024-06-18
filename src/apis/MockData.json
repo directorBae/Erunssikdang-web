@@ -45,10 +45,12 @@
     "id": 1,
     "name": "name1",
     "address": "address1",
-    "x": 37.7749295,
-    "y": 122.4194155,
+    "image": "http://via.placeholder.com/300x300",
+    "x": 129.4194155,
+    "y": 35.7749295,
     "runtime": "runtime1",
-    "avg_rate": 4.8
+    "avg_rate": 4.7,
+    "erunScore": 60.7
   },
   "tags": {
     "id": 1,

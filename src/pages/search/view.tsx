@@ -28,7 +28,7 @@ const SearchView = observer(({ vm }: SearchViewProps) => {
 
   return (
     <div>
-      <MenuBar />
+      <MenuBar vm={vm} />
       <ScrollBox>
         {loading ? (
           <div
@@ -46,12 +46,14 @@ const SearchView = observer(({ vm }: SearchViewProps) => {
           vm.data &&
           vm.data.map((place: any) => (
             <PlaceBox
+              id={place.id}
               key={place.name}
               name={place.name}
               rate={place.rate}
               erunscore={place.erunScore}
               image={place.image}
               tags={place.tags}
+              moveTo={vm.moveTo}
             />
           ))
         )}

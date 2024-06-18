@@ -12,6 +12,15 @@ const TitleBox = styled.h1`
   }
 `;
 
+const SearchForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+`;
+
 const SearchDiv = styled.div`
   display: flex;
   width: 80%;
@@ -92,15 +101,17 @@ interface SearchBoxProps {
 
 const SearchBox = ({ value, setValue, submit }: SearchBoxProps) => {
   return (
-    <SearchDiv>
-      <SearchContainer
-        type="text"
-        placeholder=" 검색어를 입력해주세요"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <IconImage src={SearchIcon} alt="search" onClick={submit} />
-    </SearchDiv>
+    <SearchForm onSubmit={submit}>
+      <SearchDiv>
+        <SearchContainer
+          type="text"
+          placeholder=" 검색어를 입력해주세요"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <IconImage src={SearchIcon} alt="search" onClick={submit} />
+      </SearchDiv>
+    </SearchForm>
   );
 };
 
@@ -132,8 +143,8 @@ const HomeView = observer(({ vm }: HomeViewProps) => {
     >
       <Title />
       <SearchBox
-        value={vm.keyword}
-        setValue={vm.setKeyword}
+        value={vm.query}
+        setValue={vm.setQuery}
         submit={vm.submitSearch}
       />
       <Description>

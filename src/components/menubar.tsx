@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import SearchIcon from "../assets/search16.svg";
 import useDevice from "../hooks/useDevice";
+import { routerStore } from "../routes/routes";
+import { observer } from "mobx-react";
 
 const MenuBarBox = styled.div`
   display: flex;
@@ -37,6 +39,8 @@ const Title = styled.h1`
   font-weight: 700;
   color: #000;
   margin-left: 10px;
+
+  cursor: pointer;
 `;
 
 const SearchDiv = styled.div`
@@ -74,13 +78,26 @@ const IconImage = styled.img`
   height: 16px;
 
   margin-right: 5px;
+
+  cursor: pointer;
 `;
 
-const SearchBox = () => {
+interface SearchBoxProps {
+  value: string;
+  setValue: (value: string) => void;
+  submit: () => void;
+}
+
+const SearchBox = ({ value, setValue, submit }: SearchBoxProps) => {
   return (
     <SearchDiv>
-      <SearchContainer type="text" placeholder=" 검색어를 입력해주세요" />
-      <IconImage src={SearchIcon} alt="search" />
+      <SearchContainer
+        type="text"
+        placeholder=" 검색어를 입력해주세요"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <IconImage src={SearchIcon} alt="search" onClick={submit} />
     </SearchDiv>
   );
 };
@@ -93,12 +110,20 @@ const MobileContainer = styled.div`
   align-items: flex-end;
 `;
 
-const MenuBar = () => {
+interface MenuBarProps {
+  vm: any;
+}
+
+const MenuBar = observer(({ vm }: MenuBarProps) => {
   const device = useDevice();
   if (device === "mobile") {
     return (
       <MobileContainer>
-        <SearchBox />
+        <SearchBox
+          value={vm.query}
+          setValue={vm.setQuery}
+          submit={vm.submitSearch}
+        />
         <div style={{ width: "3%" }} />
       </MobileContainer>
     );
@@ -106,11 +131,15 @@ const MenuBar = () => {
   return (
     <MenuBarBox>
       <MenubarContent>
-        <Title>이런씩당</Title>
-        <SearchBox />
+        <Title onClick={() => routerStore.push("/")}>이런씩당</Title>
+        <SearchBox
+          value={vm.query}
+          setValue={vm.setQuery}
+          submit={vm.submitSearch}
+        />
       </MenubarContent>
     </MenuBarBox>
   );
-};
+});
 
 export default MenuBar;

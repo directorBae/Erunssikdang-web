@@ -22,6 +22,8 @@ const PlaceBoxContainer = styled.div`
     width: 90%;
     height: 100px;
   }
+
+  cursor: pointer;
 `;
 
 const PlaceBoxImage = styled.img`
@@ -164,16 +166,26 @@ const ErunScoreNumber = styled.div`
 `;
 
 interface PlaceBoxProps {
+  id: number | null;
   name: string | null;
   rate: number | null;
   erunscore: number | null;
   image: string | null;
   tags: string[] | null;
+  moveTo: (id: number | null) => void;
 }
 
-const PlaceBox = ({ name, rate, erunscore, image, tags }: PlaceBoxProps) => {
+const PlaceBox = ({
+  id,
+  name,
+  rate,
+  erunscore,
+  image,
+  tags,
+  moveTo,
+}: PlaceBoxProps) => {
   return (
-    <PlaceBoxContainer>
+    <PlaceBoxContainer onClick={() => moveTo(id)}>
       <PlaceBoxImage
         src={image ? image : "http://via.placeholder.com/300x300"}
         alt="place"
