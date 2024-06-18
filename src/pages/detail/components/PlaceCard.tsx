@@ -92,6 +92,10 @@ const RateNumber = styled.div`
   color: #ec0000;
 
   margin-left: 10px;
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
 `;
 
 const DetailInfo = styled.div`

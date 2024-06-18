@@ -29,6 +29,10 @@ const ReviewCardContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 1024px) {
+    width: 80%;
+  }
 `;
 
 const ReviewHeader = styled.div`
@@ -70,7 +74,7 @@ const ReviewContent = styled.div`
   border-bottom: 1px solid rgba(25, 25, 25, 0.6);
 
   @media (max-width: 1024px) {
-    padding: 20px 50px;
+    padding: 20px 40px;
   }
 
   @media (max-width: 480px) {
@@ -90,6 +94,10 @@ const SummaryBox = styled.div`
 
   width: 270px;
   height: 100%;
+
+  @media (max-width: 1024px) {
+    margin: 0 10px;
+  }
 
   @media (max-width: 480px) {
     width: 45%;

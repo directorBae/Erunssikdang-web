@@ -44,9 +44,9 @@ const TagContainerVertical = styled.div`
 `;
 
 interface TagProps {
-  tag1: string;
-  tag2: string;
-  tag3: string;
+  tag1: string | null;
+  tag2: string | null;
+  tag3: string | null;
 }
 
 const TagVertical = ({ tag1, tag2, tag3 }: TagProps) => {

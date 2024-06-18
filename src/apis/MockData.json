@@ -2,23 +2,43 @@
   "search": [
     {
       "id": 1,
-      "name": "name1"
+      "name": "name1",
+      "rate": 4.5,
+      "erunScore": 60.8,
+      "image": "http://via.placeholder.com/170x170",
+      "tags": ["해충 문제", "불", "높은 가격"]
     },
     {
       "id": 2,
-      "name": "name2"
+      "name": "name2",
+      "rate": 4.5,
+      "erunScore": 70.2,
+      "image": "http://via.placeholder.com/170x170",
+      "tags": ["해충 문제", "불친절", "높격"]
     },
     {
       "id": 3,
-      "name": "name3"
+      "name": "name3",
+      "rate": 3.5,
+      "erunScore": 10.3,
+      "image": "http://via.placeholder.com/170x170",
+      "tags": ["해제", "불친절", "높은 가격"]
     },
     {
       "id": 4,
-      "name": "name4"
+      "name": "name4",
+      "rate": 2.5,
+      "erunScore": 90.2,
+      "image": "http://via.placeholder.com/170x170",
+      "tags": ["해충 문제", "불친", "높은 가격"]
     },
     {
       "id": 5,
-      "name": "name5"
+      "name": "name5",
+      "rate": 4.5,
+      "erunScore": 50.2,
+      "image": "http://via.placeholder.com/170x170",
+      "tags": ["해충 문제", "불친절", "높은 가격"]
     }
   ],
   "place": {

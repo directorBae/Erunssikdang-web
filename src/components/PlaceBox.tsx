@@ -164,17 +164,20 @@ const ErunScoreNumber = styled.div`
 `;
 
 interface PlaceBoxProps {
-  name: string;
-  rate: number;
-  erunscore: number;
-  image: string;
-  tags: string[];
+  name: string | null;
+  rate: number | null;
+  erunscore: number | null;
+  image: string | null;
+  tags: string[] | null;
 }
 
 const PlaceBox = ({ name, rate, erunscore, image, tags }: PlaceBoxProps) => {
   return (
     <PlaceBoxContainer>
-      <PlaceBoxImage src={image} alt="place" />
+      <PlaceBoxImage
+        src={image ? image : "http://via.placeholder.com/300x300"}
+        alt="place"
+      />
       <PlaceBoxContent>
         <PlaceName>{name}</PlaceName>
         <RatingBox>
@@ -186,7 +189,11 @@ const PlaceBox = ({ name, rate, erunscore, image, tags }: PlaceBoxProps) => {
           <div style={{ width: "2.5%" }}></div>
           <RateNumber>{"-" + rate}</RateNumber>
         </RatingBox>
-        <TagHorizontal tag1={tags[0]} tag2={tags[1]} tag3={tags[2]} />
+        {tags ? (
+          <TagHorizontal tag1={tags[0]} tag2={tags[1]} tag3={tags[2]} />
+        ) : (
+          <div className="loader">Loading...</div>
+        )}
       </PlaceBoxContent>
       <ErunScore>
         <ErunScoreNumber>{erunscore}</ErunScoreNumber>

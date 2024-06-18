@@ -39,9 +39,14 @@ const CommentsInputContainer = styled.div`
   justify-content: center;
   border-bottom: 1px solid rgba(25, 25, 25, 0.6);
 
+  @media (max-width: 1024px) {
+    width: 70%;
+  }
+
   @media (max-width: 480px) {
-    width: 90%;
-    height: 50px;
+    width: 70%;
+    height: auto;
+    padding: 15px 0px;
   }
 
   margin-bottom: 20px;
@@ -50,6 +55,10 @@ const CommentsInputContainer = styled.div`
 const InputandButton = styled.div`
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 `;
 
 const CommentsInput = styled.input`
@@ -68,6 +77,14 @@ const CommentsInput = styled.input`
   font-size: 14px;
 
   margin-right: 10px;
+
+  @media (max-width: 480px) {
+    width: 280px;
+    height: 30px;
+    font-size: 10px;
+    margin-right: 0px;
+    margin-bottom: 5px;
+  }
 `;
 
 const CommentsButton = styled.button`
@@ -84,6 +101,12 @@ const CommentsButton = styled.button`
   /* identical to box height */
 
   color: #ffffff;
+
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 30px;
+    font-size: 10px;
+  }
 `;
 
 const DetailView = () => {

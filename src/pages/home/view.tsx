@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SearchIcon from "../../assets/search16.svg";
+import { observer } from "mobx-react";
 
 const TitleBox = styled.h1`
   font-family: "Pretendard";
@@ -62,6 +63,8 @@ const IconImage = styled.img`
     width: 20px;
     height: 20px;
   }
+
+  cursor: pointer;
 `;
 
 const Description = styled.div`
@@ -81,11 +84,22 @@ const Description = styled.div`
   }
 `;
 
-const SearchBox = () => {
+interface SearchBoxProps {
+  value: string;
+  setValue: (value: string) => void;
+  submit: () => void;
+}
+
+const SearchBox = ({ value, setValue, submit }: SearchBoxProps) => {
   return (
     <SearchDiv>
-      <SearchContainer type="text" placeholder=" 검색어를 입력해주세요" />
-      <IconImage src={SearchIcon} alt="search" />
+      <SearchContainer
+        type="text"
+        placeholder=" 검색어를 입력해주세요"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <IconImage src={SearchIcon} alt="search" onClick={submit} />
     </SearchDiv>
   );
 };
@@ -102,7 +116,11 @@ const Title = () => {
   );
 };
 
-const HomeView = () => {
+interface HomeViewProps {
+  vm: any;
+}
+
+const HomeView = observer(({ vm }: HomeViewProps) => {
   return (
     <div
       style={{
@@ -113,7 +131,11 @@ const HomeView = () => {
       }}
     >
       <Title />
-      <SearchBox />
+      <SearchBox
+        value={vm.keyword}
+        setValue={vm.setKeyword}
+        submit={vm.submitSearch}
+      />
       <Description>
         {
           "리뷰의 신뢰성을 떨어뜨리는\n광고성 리뷰와 서비스 별점 올려치기.\n만연한 사기 속에서 정확한 정보를 얻고 싶다면...\n\n국내최초 마이너스 레이팅 시스템,\n착한 리뷰는 자동으로 밴 당합니다."
@@ -121,6 +143,6 @@ const HomeView = () => {
       </Description>
     </div>
   );
-};
+});
 
 export default HomeView;

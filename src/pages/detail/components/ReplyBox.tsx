@@ -18,6 +18,7 @@ const ReplyContainer = styled.div`
   padding: 15px 40px;
 
   @media (max-width: 480px) {
+    width: 80%;
     padding: 10px 10px;
   }
 `;

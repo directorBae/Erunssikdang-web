@@ -6,3 +6,45 @@
   font-family: "Pretendard";
   src: url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 }
+
+.loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite, rainbow 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    border-top-color: #ff0000;
+  } /* Red */
+  16% {
+    border-top-color: #ff7f00;
+  } /* Orange */
+  33% {
+    border-top-color: #ffff00;
+  } /* Yellow */
+  50% {
+    border-top-color: #00ff00;
+  } /* Green */
+  66% {
+    border-top-color: #0000ff;
+  } /* Blue */
+  83% {
+    border-top-color: #4b0082;
+  } /* Indigo */
+  100% {
+    border-top-color: #9400d3;
+  } /* Violet */
+}
