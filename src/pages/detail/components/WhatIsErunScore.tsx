@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Arrow from "../../../assets/ErunScoreBoxLine.svg";
-import { observer } from "mobx-react";
 
 const Container = styled.div<{ $show: boolean }>`
   width: 100%;

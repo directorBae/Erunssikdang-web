@@ -11,6 +11,7 @@ import getTagPOI from "../../apis/MLdataAPIs";
 import { getComments } from "../../apis/actionsAPIs";
 import WhatIsErunScore from "./components/WhatIsErunScore";
 import { observer } from "mobx-react";
+import CommentInputSection from "./components/CommentInput";
 
 const FullWidth = styled.div`
   width: 100vw;
@@ -33,85 +34,6 @@ const ContentsSection = styled.div`
 
   @media (max-width: 480px) {
     width: 90%;
-  }
-`;
-
-const CommentsInputContainer = styled.div`
-  width: 600px;
-  height: 70px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid rgba(25, 25, 25, 0.6);
-
-  @media (max-width: 1024px) {
-    width: 70%;
-  }
-
-  @media (max-width: 480px) {
-    width: 70%;
-    height: auto;
-    padding: 15px 0px;
-  }
-
-  margin-bottom: 20px;
-`;
-
-const InputandButton = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-  }
-`;
-
-const CommentsInput = styled.input`
-  width: 450px;
-  height: 40px;
-
-  box-sizing: border-box;
-
-  border: 1px solid rgba(56, 56, 56, 0.9);
-  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 300;
-  font-size: 14px;
-
-  margin-right: 10px;
-
-  @media (max-width: 480px) {
-    width: 280px;
-    height: 30px;
-    font-size: 10px;
-    margin-right: 0px;
-    margin-bottom: 5px;
-  }
-`;
-
-const CommentsButton = styled.button`
-  width: 140px;
-  background: #00084d;
-  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-
-  /* identical to box height */
-
-  color: #ffffff;
-
-  @media (max-width: 480px) {
-    width: 60px;
-    height: 30px;
-    font-size: 10px;
   }
 `;
 
@@ -172,12 +94,6 @@ interface DetailViewProps {
 const DetailView = observer(({ vm }: DetailViewProps) => {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
-
-  // TODO: 스크롤이 위치했을 때 API Fetch 후 댓글창이 나타나게 하기
-  // TODO: 대댓글 버튼 누르면 해당 id에 해당하는 대댓글 API Fetch 후
-  // 대댓글창이 나타나게 하기
-  // TODO: 대댓글 작성 섹션
-  // TODO: 태그 정렬
 
   useEffect(() => {
     const fetchPlaceData = async (id: number | null) => {
@@ -248,12 +164,12 @@ const DetailView = observer(({ vm }: DetailViewProps) => {
                 clickErunScore={() => vm.setWhatIsErunScore()}
               />
             )}
-            <CommentsInputContainer>
-              <InputandButton>
-                <CommentsInput placeholder=" 리뷰를 작성해주세요. 좋은 리뷰는 등록이 자동 제한될 수 있습니다." />
-                <CommentsButton>리뷰쓰기</CommentsButton>
-              </InputandButton>
-            </CommentsInputContainer>
+            <CommentInputSection
+              $isWriting={vm.isWriting}
+              changeState={vm.setWriting}
+              imageAddClick={vm.imageAddClick}
+              handleImageChange={vm.handleImageChange}
+            />
             <CommentSection>
               {vm.comments &&
                 (vm.comments as any[]).map((comment) => (

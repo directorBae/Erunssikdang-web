@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Skull from "../../../assets/skull.svg";
 import { TagVertical } from "../../../components/Tag";
+import iButton from "../../../assets/iBtn.svg";
 
 const SkullBox = styled.div`
   display: flex;
@@ -251,6 +252,24 @@ const ErunScoreNumber = styled.div`
   }
 `;
 
+const NumberandIBtn = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+`;
+
+const IBtn = styled.div`
+  cursor: pointer;
+
+  align-self: flex-start;
+
+  @media (max-width: 1400px) {
+    display: none;
+  }
+`;
+
 interface ReviewCardProps {
   rate: number | null;
   erunScore: number | null;
@@ -299,9 +318,13 @@ const ReviewCard = ({
               </Count>
             </CountContainer>
           </TagCount>
-          <ErunScoreNumber onClick={clickErunScore}>
-            {erunScore}
-          </ErunScoreNumber>
+          <NumberandIBtn>
+            <ErunScoreNumber>{erunScore}</ErunScoreNumber>
+            <IBtn onClick={clickErunScore}>
+              <img src={iButton} alt="info" width={16} />
+            </IBtn>
+          </NumberandIBtn>
+
           <RateHeader>이런 Score</RateHeader>
         </SummaryBox>
       </ReviewContent>
