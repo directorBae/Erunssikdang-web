@@ -8,6 +8,9 @@ import ReviewCard from "./components/ReviewCard";
 import { useSearchParams } from "react-router-dom";
 import getPlacePOI from "../../apis/placePOIAPIs";
 import getTagPOI from "../../apis/MLdataAPIs";
+import { getComments } from "../../apis/actionsAPIs";
+import WhatIsErunScore from "./components/WhatIsErunScore";
+import { observer } from "mobx-react";
 
 const FullWidth = styled.div`
   width: 100vw;
@@ -112,13 +115,69 @@ const CommentsButton = styled.button`
   }
 `;
 
+const CommentSection = styled.div`
+  position: relative;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  padding: 20px;
+`;
+
+const ReplySectionContainer = styled.div`
+  width: 25%;
+  min-width: 300px;
+  position: absolute;
+
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  right: 20px;
+
+  @media (max-width: 1400px) {
+    display: none;
+  }
+`;
+
+const ReplyBoxHolder = styled.div<{ top: number }>`
+  width: 100%;
+  position: absolute;
+
+  max-height: 60vh;
+  overflow-y: auto;
+
+  ${({ top }) => `top: ${top}px;`}
+`;
+
+interface ReplySectionProps {
+  index: number;
+}
+
+const ReplySection = ({ index }: ReplySectionProps) => {
+  return (
+    <ReplyBoxHolder top={1130 + index * 380}>
+      <ReplyBox />
+    </ReplyBoxHolder>
+  );
+};
+
 interface DetailViewProps {
   vm: any;
 }
 
-const DetailView = ({ vm }: DetailViewProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+const DetailView = observer(({ vm }: DetailViewProps) => {
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
+
+  // TODO: 스크롤이 위치했을 때 API Fetch 후 댓글창이 나타나게 하기
+  // TODO: 대댓글 버튼 누르면 해당 id에 해당하는 대댓글 API Fetch 후
+  // 대댓글창이 나타나게 하기
+  // TODO: 대댓글 작성 섹션
+  // TODO: 태그 정렬
 
   useEffect(() => {
     const fetchPlaceData = async (id: number | null) => {
@@ -131,14 +190,20 @@ const DetailView = ({ vm }: DetailViewProps) => {
       return tags;
     };
 
+    const fetchCommentData = async (id: number | null) => {
+      const comments = await getComments(id);
+      return comments;
+    };
+
     const idString = searchParams.get("id");
     const id = idString ? parseInt(idString) : null;
     setLoading(true);
 
-    Promise.all([fetchPlaceData(id), fetchTagData(id)])
+    Promise.all([fetchPlaceData(id), fetchTagData(id), fetchCommentData(id)])
       .then((results) => {
         vm.setData(results[0]);
         vm.setTags(results[1]);
+        vm.setComments(results[2]);
         setLoading(false);
       })
       .catch((error) => {
@@ -180,6 +245,7 @@ const DetailView = ({ vm }: DetailViewProps) => {
                 rate={vm.data.avg_rate}
                 erunScore={vm.data.erunScore}
                 tags={vm.tags}
+                clickErunScore={() => vm.setWhatIsErunScore()}
               />
             )}
             <CommentsInputContainer>
@@ -188,13 +254,31 @@ const DetailView = ({ vm }: DetailViewProps) => {
                 <CommentsButton>리뷰쓰기</CommentsButton>
               </InputandButton>
             </CommentsInputContainer>
-            <CommentBox />
-            <ReplyBox />
+            <CommentSection>
+              {vm.comments &&
+                (vm.comments as any[]).map((comment) => (
+                  <CommentBox
+                    key={comment.id}
+                    id={comment.id}
+                    writer={comment.writer}
+                    date={comment.date}
+                    content={comment.content}
+                    image={comment.image}
+                    rate={comment.rate}
+                    good={comment.good}
+                    bad={comment.bad}
+                    num_reply={comment.num_reply}
+                  />
+                ))}
+            </CommentSection>
           </ContentsSection>
+          <ReplySectionContainer>
+            <WhatIsErunScore show={vm.whatIsErunScore} />
+          </ReplySectionContainer>
         </FullWidth>
       )}
     </div>
   );
-};
+});
 
 export default DetailView;

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PersonIcon from "../../../assets/personicon.svg";
 import SkullIcon from "../../../assets/skull.svg";
-import { TagHorizontal } from "../../../components/Tag";
 import GoodFinger from "../../../assets/good.svg";
 import BadFinger from "../../../assets/bad.svg";
 
@@ -104,7 +103,7 @@ const SkullImage = styled.img`
 
 const CommentContext = styled.div`
   width: 90%;
-  height: auto;
+  height: 85px;
   margin-top: 20px;
 
   font-family: "Pretendard";
@@ -180,6 +179,12 @@ const ReplyButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
+  cursor: pointer;
 `;
 
 const FingerImage = styled.img`
@@ -190,6 +195,7 @@ const FingerImage = styled.img`
     width: 12px;
     height: 12px;
   }
+  cursor: pointer;
 `;
 
 const ReplyHead = styled.div`
@@ -202,16 +208,36 @@ const ReplyHead = styled.div`
   }
 `;
 
-interface CommentProps {}
+interface CommentProps {
+  id: number;
+  writer: string;
+  date: string;
+  content: string;
+  image: string[] | null;
+  rate: number;
+  good: number;
+  bad: number;
+  num_reply: number;
+}
 
-const CommentBox = ({}: CommentProps) => {
+const CommentBox = ({
+  id,
+  writer,
+  date,
+  content,
+  image,
+  rate,
+  good,
+  bad,
+  num_reply,
+}: CommentProps) => {
   return (
     <CommentContainer>
       <CommentsHeader>
         <WriterImage src={PersonIcon} />
         <WriterInfos>
-          <WriterName>작성자</WriterName>
-          <WriteDate>2021.07.27</WriteDate>
+          <WriterName>{writer}</WriterName>
+          <WriteDate>{date}</WriteDate>
           <SkullBox>
             <SkullImage src={SkullIcon} />
             <SkullImage src={SkullIcon} />
@@ -220,40 +246,25 @@ const CommentBox = ({}: CommentProps) => {
             <SkullImage src={SkullIcon} />
           </SkullBox>
         </WriterInfos>
-        <div
-          style={{
-            width: "50%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
-          }}
-        >
-          <TagHorizontal tag1="태그1" tag2="태그2" tag3="태그3" />
-        </div>
       </CommentsHeader>
-      <CommentContext>
-        {
-          "전설은 아니고 레전드급인 식당. 서비스부터 위생까지 엄청난 수준. 맛은 나쁘지 않았는데 내 생각엔 바퀴벌레 육수 맛일 듯. 식당에 바퀴벌레가 존나게 돌아다님. 호주인줄. 씨발 진짜 사장 불러서 음식에 수세미 나왔다고 따졌더니 돈 줄테니까 나가라고함. 대단한 앰뒤년."
-        }
-      </CommentContext>
+      <CommentContext>{content}</CommentContext>
       <CommentImagesBox>
-        <CommentImage src="https://via.placeholder.com/150" />
-        <CommentImage src="https://via.placeholder.com/150" />
-        <CommentImage src="https://via.placeholder.com/150" />
+        {image &&
+          image.map((img, index) => <CommentImage key={index} src={img} />)}
       </CommentImagesBox>
       <BottomBar>
         <GoodButtonContainer>
           <FingerImage src={GoodFinger} alt="good" />
-          <ReactionNumber>0</ReactionNumber>
+          <ReactionNumber>{good}</ReactionNumber>
         </GoodButtonContainer>
         <BadButtonContainer>
           <FingerImage src={BadFinger} alt="good" />
-          <ReactionNumber>0</ReactionNumber>
+          <ReactionNumber>{bad}</ReactionNumber>
         </BadButtonContainer>
         <div style={{ width: "40%" }}></div>
         <ReplyButtonContainer>
           <ReplyHead>대댓글</ReplyHead>
-          <ReactionNumber>3</ReactionNumber>
+          <ReactionNumber>{num_reply}</ReactionNumber>
         </ReplyButtonContainer>
       </BottomBar>
     </CommentContainer>

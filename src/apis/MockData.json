@@ -57,5 +57,33 @@
     "tag1": "해충 문제",
     "tag2": "불친절",
     "tag3": "높은 가격"
-  }
+  },
+  "comment": [
+    {
+      "id": 1,
+      "writer": "writer1",
+      "date": "2018.01.01",
+      "place_id": 1,
+      "content": "content1",
+      "reply": null,
+      "image": ["http://via.placeholder.com/170x170"],
+      "rate": 4,
+      "good": 10,
+      "bad": 2,
+      "num_reply": 3
+    },
+    {
+      "id": 2,
+      "writer": "writer1",
+      "date": "2018.01.01",
+      "place_id": 1,
+      "content": "content1",
+      "reply": null,
+      "image": ["http://via.placeholder.com/170x170"],
+      "rate": 4,
+      "good": 10,
+      "bad": 2,
+      "num_reply": 3
+    }
+  ]
 }

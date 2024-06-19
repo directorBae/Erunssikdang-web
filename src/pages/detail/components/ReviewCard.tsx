@@ -227,7 +227,7 @@ const ErunScoreNumber = styled.div`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 700;
-  font-size: 48px;
+  font-size: 60px;
 
   display: flex;
   align-items: center;
@@ -239,6 +239,12 @@ const ErunScoreNumber = styled.div`
 
   text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
 
+  cursor: pointer;
+
+  @media (max-width: 1400px) {
+    cursor: default;
+  }
+
   @media (max-width: 480px) {
     font-size: 24px;
     margin-bottom: 10px;
@@ -249,9 +255,15 @@ interface ReviewCardProps {
   rate: number | null;
   erunScore: number | null;
   tags: { tag1: string; tag2: string; tag3: string } | null;
+  clickErunScore: () => void;
 }
 
-const ReviewCard = ({ rate, erunScore, tags }: ReviewCardProps) => {
+const ReviewCard = ({
+  rate,
+  erunScore,
+  tags,
+  clickErunScore,
+}: ReviewCardProps) => {
   return (
     <ReviewCardContainer>
       <ReviewHeader>리뷰</ReviewHeader>
@@ -287,7 +299,9 @@ const ReviewCard = ({ rate, erunScore, tags }: ReviewCardProps) => {
               </Count>
             </CountContainer>
           </TagCount>
-          <ErunScoreNumber>{erunScore}</ErunScoreNumber>
+          <ErunScoreNumber onClick={clickErunScore}>
+            {erunScore}
+          </ErunScoreNumber>
           <RateHeader>이런 Score</RateHeader>
         </SummaryBox>
       </ReviewContent>

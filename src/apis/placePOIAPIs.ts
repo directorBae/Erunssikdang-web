@@ -16,7 +16,7 @@ const getPlacePOI = (id: number | null): Promise<Place> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(mockdata.place);
-    }, 1000);
+    }, 100);
   });
 };
 

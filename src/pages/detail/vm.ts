@@ -9,6 +9,7 @@ class DetailViewModel {
   query = "";
   data = null;
   tags = null;
+  comments = null;
 
   whatIsErunScore = false;
   replyBarShow = false;
@@ -19,16 +20,19 @@ class DetailViewModel {
   };
 
   setTags = (tags: any) => {
-    console.log(tags);
     this.tags = tags;
+  };
+
+  setComments = (comments: any) => {
+    this.comments = comments;
   };
 
   setQuery = (query: string) => {
     this.query = query;
   };
 
-  setWhatIsErunScore = (whatIsErunScore: boolean) => {
-    this.whatIsErunScore = whatIsErunScore;
+  setWhatIsErunScore = () => {
+    this.whatIsErunScore = !this.whatIsErunScore;
   };
 
   setReplyBar = (commentId: number) => {

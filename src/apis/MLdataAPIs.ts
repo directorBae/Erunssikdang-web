@@ -11,7 +11,7 @@ const getTagPOI = (id: number | null): Promise<Tag> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(mockdata.tags);
-    }, 1000);
+    }, 100);
   });
 };
 
