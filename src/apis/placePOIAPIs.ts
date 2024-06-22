@@ -1,4 +1,5 @@
 import mockdata from "./MockData.json";
+import axios from "axios";
 
 interface Place {
   id: number;
@@ -13,11 +14,16 @@ interface Place {
 }
 
 const getPlacePOI = (id: number | null): Promise<Place> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockdata.place);
-    }, 100);
-  });
+  return axios
+    .get(`http://localhost:5000/api/place/get?id=${id}`)
+    .then((res) => {
+      const data = res.data.result;
+      return data[0];
+    })
+    .catch((err) => {
+      console.log(err);
+      throw err;
+    });
 };
 
 export default getPlacePOI;

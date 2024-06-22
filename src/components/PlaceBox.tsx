@@ -204,7 +204,7 @@ const PlaceBox = ({
         {tags ? (
           <TagHorizontal tag1={tags[0]} tag2={tags[1]} tag3={tags[2]} />
         ) : (
-          <div className="loader">Loading...</div>
+          <div style={{ width: 20, height: 20 }} className="loader" />
         )}
       </PlaceBoxContent>
       <ErunScore>

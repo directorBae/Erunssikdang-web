@@ -5,26 +5,45 @@ import ScrollBox from "../../components/scrollbox";
 import { useSearchParams } from "react-router-dom";
 import SearchAPI from "../../apis/searchAPIs";
 import { observer } from "mobx-react";
+import styled from "styled-components";
 
 interface SearchViewProps {
   vm: any;
 }
 
+const WhatSearched = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  height: 60px;
+
+  font-size: 20px;
+  font-family: "Pretendard";
+  font-style: normal;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    height: 40px;
+  }
+`;
+
 const SearchView = observer(({ vm }: SearchViewProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
+  const query = searchParams.get("query");
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const query = searchParams.get("query");
       const data = await SearchAPI(query);
       vm.setData(data);
       setLoading(false);
     };
 
     fetchData();
-  }, [searchParams, vm]);
+  }, [searchParams, vm, query]);
 
   return (
     <div>
@@ -43,19 +62,22 @@ const SearchView = observer(({ vm }: SearchViewProps) => {
             <div className="loader" />
           </div>
         ) : (
-          vm.data &&
-          vm.data.map((place: any) => (
-            <PlaceBox
-              id={place.id}
-              key={place.name}
-              name={place.name}
-              rate={place.rate}
-              erunscore={place.erunScore}
-              image={place.image}
-              tags={place.tags}
-              moveTo={vm.moveTo}
-            />
-          ))
+          <div>
+            <WhatSearched>{`"${query}" 검색 결과`}</WhatSearched>
+            {vm.data &&
+              vm.data.map((place: any) => (
+                <PlaceBox
+                  id={place.id}
+                  key={place.name}
+                  name={place.name}
+                  rate={place.rate}
+                  erunscore={place.erunScore}
+                  image={place.image}
+                  tags={place.tags}
+                  moveTo={vm.moveTo}
+                />
+              ))}
+          </div>
         )}
       </ScrollBox>
     </div>
