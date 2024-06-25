@@ -121,7 +121,7 @@ const Title = () => {
       <div style={{ height: "30vh" }}></div>
       <span style={{ color: "#0066FF" }}>{"이"}</span>
       <span style={{ color: "#FF1100" }}>{"런"}</span>
-      <span style={{ color: "#FFDD00" }}>{"씩"}</span>
+      <span style={{ color: "#FFDD00" }}>{"씹"}</span>
       <span style={{ color: "#00A319" }}>{"당"}</span>
     </TitleBox>
   );
