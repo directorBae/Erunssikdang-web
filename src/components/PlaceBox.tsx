@@ -60,6 +60,7 @@ const PlaceBoxContent = styled.div`
 `;
 
 const PlaceName = styled.div`
+  width: 80%;
   height: 25%;
 
   font-family: "Pretendard";
@@ -67,9 +68,13 @@ const PlaceName = styled.div`
   font-weight: 700;
   font-size: 24px;
 
-  display: flex;
+  display: block;
   align-items: center;
-  text-align: center;
+  text-align: left;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 
   color: #000000;
 
@@ -199,7 +204,7 @@ const PlaceBox = ({
           <SkullImage src={Skull} alt="skull" />
           <SkullImage src={Skull} alt="skull" />
           <div style={{ width: "2.5%" }}></div>
-          <RateNumber>{"-" + rate}</RateNumber>
+          <RateNumber>{rate ? "-" + rate : "0.0"}</RateNumber>
         </RatingBox>
         {tags ? (
           <TagHorizontal tag1={tags[0]} tag2={tags[1]} tag3={tags[2]} />
@@ -208,7 +213,7 @@ const PlaceBox = ({
         )}
       </PlaceBoxContent>
       <ErunScore>
-        <ErunScoreNumber>{erunscore}</ErunScoreNumber>
+        <ErunScoreNumber>{erunscore ? erunscore : "-"}</ErunScoreNumber>
         <ErunScoreText>이런 Score</ErunScoreText>
       </ErunScore>
     </PlaceBoxContainer>

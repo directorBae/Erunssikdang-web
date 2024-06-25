@@ -38,6 +38,8 @@ const PlaceInfo = styled.div`
 `;
 
 const PlaceName = styled.div`
+  width: 100%;
+
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 800;
@@ -45,7 +47,11 @@ const PlaceName = styled.div`
 
   color: #000000;
 
+  display: block;
   text-overflow: ellipsis;
+  white-space: nowrap;
+
+  text-align: center;
   margin-bottom: 20px;
 
   @media (max-width: 480px) {
