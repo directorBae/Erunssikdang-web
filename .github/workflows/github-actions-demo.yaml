@@ -26,14 +26,23 @@ jobs:
           npm install
           CI=false && npm run build
 
-      - name: Deploy to EC2
+      - name: Create tarball
+        run: tar -czf frontend-build.tar.gz build
+
+      - name: Upload build artifact to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "frontend-build.tar.gz"
+          target: "~/deploy/frontend/"
+
+      - name: Extract and deploy on EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            mkdir -p ~/deploy/frontend
-            tar -czf frontend-build.tar.gz build
-            scp frontend-build.tar.gz ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/deploy/frontend/
-            ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'tar -xzf ~/deploy/frontend/frontend-build.tar.gz -C /var/www/html/'
+            tar -xzf ~/deploy/frontend/frontend-build.tar.gz -C /var/www/html/
