@@ -1,4 +1,3 @@
-import mockdata from "./MockData.json";
 import axios from "axios";
 
 interface Place {
