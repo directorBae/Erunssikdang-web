@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PersonIcon from "../../../assets/personicon.svg";
 import SkullIcon from "../../../assets/skull.svg";
+import SkullFilled from "../../../assets/skullFilled.svg";
 import GoodFinger from "../../../assets/good.svg";
 import BadFinger from "../../../assets/bad.svg";
 
@@ -103,7 +104,7 @@ const SkullImage = styled.img`
 
 const CommentContext = styled.div`
   width: 90%;
-  height: 85px;
+  height: auto;
   margin-top: 20px;
 
   font-family: "Pretendard";
@@ -231,23 +232,34 @@ const CommentBox = ({
   bad,
   num_reply,
 }: CommentProps) => {
+  const filledSkulls = Array(rate).fill(<SkullImage src={SkullFilled} />);
+  const emptySkulls = Array(5 - rate).fill(<SkullImage src={SkullIcon} />);
+
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return new Date(dateString).toLocaleString(undefined, options);
+  };
+
   return (
     <CommentContainer>
       <CommentsHeader>
         <WriterImage src={PersonIcon} />
         <WriterInfos>
           <WriterName>{writer}</WriterName>
-          <WriteDate>{date}</WriteDate>
+          <WriteDate>{formatDate(date)}</WriteDate>
           <SkullBox>
-            <SkullImage src={SkullIcon} />
-            <SkullImage src={SkullIcon} />
-            <SkullImage src={SkullIcon} />
-            <SkullImage src={SkullIcon} />
-            <SkullImage src={SkullIcon} />
+            {filledSkulls}
+            {emptySkulls}
           </SkullBox>
         </WriterInfos>
       </CommentsHeader>
-      <CommentContext>{content}</CommentContext>
+      {content && <CommentContext>{content}</CommentContext>}
       <CommentImagesBox>
         {image &&
           image.map((img, index) => <CommentImage key={index} src={img} />)}

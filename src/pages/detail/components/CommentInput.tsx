@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Skull from "../../../assets/skull.svg";
+import SkullFilled from "../../../assets/skullFilled.svg";
 import imageAdd from "../../../assets/imageAdd.svg";
 import { useSpring, animated } from "react-spring";
 
@@ -108,6 +109,8 @@ const CommentsButton = styled.button`
     height: 30px;
     font-size: 10px;
   }
+
+  cursor: pointer;
 `;
 
 const SkullImage = styled.img`
@@ -118,6 +121,8 @@ const SkullImage = styled.img`
     width: 20px;
     height: 20px;
   }
+
+  cursor: pointer;
 `;
 
 const RatingSelect = styled(animated.div)`
@@ -232,16 +237,26 @@ const AttachedImage = styled.img`
 
 interface CommentInputSectionProps {
   $isWriting: boolean;
+  givenRate: number;
   changeState: (state: boolean) => void;
   imageAddClick: () => void;
   handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setGivenRate: (rate: number) => void;
+  submitComment: () => void;
+  commentValue: string;
+  setCommentValue: (value: string) => void;
 }
 
 const CommentInputSection = ({
   $isWriting,
+  givenRate,
   changeState,
   imageAddClick,
   handleImageChange,
+  setGivenRate,
+  submitComment,
+  commentValue,
+  setCommentValue,
 }: CommentInputSectionProps) => {
   const expandStyles = useSpring({
     height: $isWriting ? 220 : 40,
@@ -255,22 +270,42 @@ const CommentInputSection = ({
     delay: 300,
   });
 
+  const skullArray = Array.from({ length: 5 }, (_, index) => {
+    if (index < givenRate) {
+      return (
+        <SkullImage
+          src={SkullFilled}
+          alt="skull"
+          key={index}
+          onClick={() => setGivenRate(index + 1)}
+        />
+      );
+    } else {
+      return (
+        <SkullImage
+          src={Skull}
+          alt="skull"
+          key={index}
+          onClick={() => setGivenRate(index + 1)}
+        />
+      );
+    }
+  });
+
   return (
     <CommentsInputContainer>
       <InputandButton>
         <CommentsContainer style={expandStyles} $isWriting={$isWriting}>
           <RatingSelect style={fadeInStyles}>
-            <SkullImage src={Skull} alt="skull" />
-            <SkullImage src={Skull} alt="skull" />
-            <SkullImage src={Skull} alt="skull" />
-            <SkullImage src={Skull} alt="skull" />
-            <SkullImage src={Skull} alt="skull" />
+            {skullArray}
             <div style={{ width: "5%" }} />
             <RatingGuide>나쁜 식당일수록 많은 해골을 주세요.</RatingGuide>
           </RatingSelect>
           <CommentsInput
             $isWriting={$isWriting}
             placeholder="리뷰를 작성해주세요. 좋은 리뷰는 등록이 자동 제한될 수 있습니다."
+            value={commentValue}
+            onChange={(e) => setCommentValue(e.target.value)}
             onClick={() => changeState(true)}
             maxLength={140}
           />
@@ -284,7 +319,9 @@ const CommentInputSection = ({
             />
           </BottomBar>
         </CommentsContainer>
-        <CommentsButton>리뷰쓰기</CommentsButton>
+        <CommentsButton onClick={() => submitComment()}>
+          리뷰쓰기
+        </CommentsButton>
       </InputandButton>
     </CommentsInputContainer>
   );

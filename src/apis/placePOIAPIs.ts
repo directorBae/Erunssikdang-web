@@ -12,17 +12,15 @@ interface Place {
   erunScore: number;
 }
 
-const getPlacePOI = (id: number | null): Promise<Place> => {
-  return axios
-    .get(`http://localhost:5000/api/place/get?id=${id}`)
-    .then((res) => {
-      const data = res.data.result;
-      return data[0];
-    })
-    .catch((err) => {
-      console.log(err);
-      throw err;
-    });
+const getPlacePOI = async (id: number | null): Promise<Place> => {
+  try {
+    const res = await axios.get(`http://localhost:5000/api/place/get?id=${id}`);
+    const data = res.data.result;
+    return data[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 };
 
 export default getPlacePOI;

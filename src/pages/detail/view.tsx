@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import CommentBox from "./components/CommentsBox";
 import MenuBar from "../../components/menubar";
@@ -6,9 +6,6 @@ import PlaceCard from "./components/PlaceCard";
 import ReplyBox from "./components/ReplyBox";
 import ReviewCard from "./components/ReviewCard";
 import { useSearchParams } from "react-router-dom";
-import getPlacePOI from "../../apis/placePOIAPIs";
-import getTagPOI from "../../apis/MLdataAPIs";
-import { getComments } from "../../apis/actionsAPIs";
 import WhatIsErunScore from "./components/WhatIsErunScore";
 import { observer } from "mobx-react";
 import CommentInputSection from "./components/CommentInput";
@@ -93,44 +90,16 @@ interface DetailViewProps {
 
 const DetailView = observer(({ vm }: DetailViewProps) => {
   const [searchParams] = useSearchParams();
-  const [loading, setLoading] = useState(false);
-
+  const idString = searchParams.get("id");
+  const id = idString ? parseInt(idString) : 0;
   useEffect(() => {
-    const fetchPlaceData = async (id: number | null) => {
-      const data = getPlacePOI(id);
-      return data;
-    };
-
-    const fetchTagData = async (id: number | null) => {
-      const tags = await getTagPOI(id);
-      return tags;
-    };
-
-    const fetchCommentData = async (id: number | null) => {
-      const comments = await getComments(id);
-      return comments;
-    };
-
-    const idString = searchParams.get("id");
-    const id = idString ? parseInt(idString) : null;
-    setLoading(true);
-
-    Promise.all([fetchPlaceData(id), fetchTagData(id), fetchCommentData(id)])
-      .then((results) => {
-        vm.setData(results[0]);
-        vm.setTags(results[1]);
-        vm.setComments(results[2]);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, [searchParams, vm]);
+    vm.initialize(id);
+  }, [vm, id]);
 
   return (
     <div>
       <MenuBar vm={vm} />
-      {loading ? (
+      {vm.loading ? (
         <div
           style={{
             width: "100%",
@@ -156,7 +125,7 @@ const DetailView = observer(({ vm }: DetailViewProps) => {
                 image={vm.data.image}
               />
             )}
-            {vm.data && vm.tags && (
+            {vm.data && (
               <ReviewCard
                 rate={vm.data.avg_rate}
                 erunScore={vm.data.erunScore}
@@ -166,9 +135,14 @@ const DetailView = observer(({ vm }: DetailViewProps) => {
             )}
             <CommentInputSection
               $isWriting={vm.isWriting}
+              givenRate={vm.givenRate}
               changeState={vm.setWriting}
               imageAddClick={vm.imageAddClick}
               handleImageChange={vm.handleImageChange}
+              setGivenRate={vm.setGivenRate}
+              submitComment={() => vm.submitComment(id)}
+              commentValue={vm.writingComment}
+              setCommentValue={vm.setWritingComment}
             />
             <CommentSection>
               {vm.comments &&

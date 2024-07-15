@@ -129,9 +129,7 @@ const ErunScore = styled.div`
   margin-right: 20px;
 
   @media (max-width: 480px) {
-    width: 20%;
-    height: 100%;
-    margin-right: 20px;
+    display: none;
   }
 `;
 

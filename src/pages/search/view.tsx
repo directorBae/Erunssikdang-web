@@ -29,6 +29,31 @@ const WhatSearched = styled.div`
   }
 `;
 
+const SubBar = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PlaceAddButton = styled.button`
+  width: 150px;
+  height: 40px;
+  background-color: #f5f5f5;
+  border: 1px solid #999999;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: "Pretendard";
+  font-style: normal;
+  cursor: pointer;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    width: 100px;
+    height: 40px;
+  }
+`;
+
 const SearchView = observer(({ vm }: SearchViewProps) => {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -63,7 +88,11 @@ const SearchView = observer(({ vm }: SearchViewProps) => {
           </div>
         ) : (
           <div>
-            <WhatSearched>{`"${query}" 검색 결과`}</WhatSearched>
+            <SubBar>
+              <WhatSearched>{`"${query}" 검색 결과`}</WhatSearched>
+              <PlaceAddButton>장소 추가</PlaceAddButton>
+            </SubBar>
+
             {vm.data &&
               vm.data.map((place: any) => (
                 <ScrollBox>

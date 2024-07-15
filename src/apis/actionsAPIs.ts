@@ -1,4 +1,4 @@
-import mockdata from "./MockData.json";
+import axios from "axios";
 
 interface Comments {
   id: number;
@@ -7,27 +7,47 @@ interface Comments {
   place_id: number;
   content: string;
   reply: number | null;
-  image: string[] | null;
+  image: string | ArrayBuffer | null | undefined;
   rate: number | null;
   good: number;
   bad: number;
   num_reply: number | null;
 }
 
-const getComments = (id: number | null): Promise<Comments[]> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockdata.comment);
-    }, 100);
-  });
+const getComments = async (id: number | null): Promise<Comments[]> => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/api/comment/get?id=${id}`
+    );
+    const data = res.data;
+    return data.result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 };
 
 const getReply = (id: number | null): Promise<Comments[]> => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockdata.comment);
-    }, 100);
+    setTimeout(() => {}, 100);
   });
 };
 
-export { getComments, getReply };
+const postCommentData = async (comment: Comments) => {
+  try {
+    const res = await axios.post(
+      `http://localhost:5000/api/comment/post?id=${comment.place_id}`,
+      {
+        data: comment,
+      }
+    );
+    const data = res.data;
+    return data.result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export { getComments, getReply, postCommentData };
+export type { Comments };

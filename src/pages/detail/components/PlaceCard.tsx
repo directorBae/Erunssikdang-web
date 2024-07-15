@@ -8,6 +8,7 @@ const PlaceCardContainer = styled.div`
   height: 440px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
 
   padding: 40px;
 
@@ -196,7 +197,7 @@ const PlaceCard = ({
 }: PlaceCardProps) => {
   return (
     <PlaceCardContainer>
-      <PlaceImage src={image} />
+      {image && <PlaceImage src={image} />}
       <PlaceInfo>
         <PlaceName>{name}</PlaceName>
         <RateBox>
@@ -207,7 +208,7 @@ const PlaceCard = ({
             <SkullImage src={Skull} />
             <SkullImage src={Skull} />
           </SkullBox>
-          <RateNumber>{"-" + rate}</RateNumber>
+          {rate && <RateNumber>{"-" + rate}</RateNumber>}
         </RateBox>
         <DetailInfo>
           <DetailHead>상세정보</DetailHead>

@@ -30,6 +30,7 @@ const ReviewCardContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   @media (max-width: 1024px) {
     width: 80%;
@@ -288,7 +289,11 @@ const ReviewCard = ({
       <ReviewHeader>리뷰</ReviewHeader>
       <ReviewContent>
         <SummaryBox>
-          <AvgRating>{"-" + rate}</AvgRating>
+          {rate !== null ? (
+            <AvgRating>{"-" + rate}</AvgRating>
+          ) : (
+            <AvgRating>평가 없음</AvgRating>
+          )}
           <RateHeader>평균 평점</RateHeader>
           <SkullBox>
             <SkullImage src={Skull} />
@@ -298,35 +303,35 @@ const ReviewCard = ({
             <SkullImage src={Skull} />
           </SkullBox>
         </SummaryBox>
-        <SummaryBox>
-          <TagCount>
-            {tags && (
+        {tags && (
+          <SummaryBox>
+            <TagCount>
               <TagVertical tag1={tags.tag1} tag2={tags.tag2} tag3={tags.tag3} />
-            )}
-            <CountContainer>
-              <Count>
-                <GrayBar />
-                <YellowBar />
-              </Count>
-              <Count>
-                <GrayBar />
-                <YellowBar />
-              </Count>
-              <Count>
-                <GrayBar />
-                <YellowBar />
-              </Count>
-            </CountContainer>
-          </TagCount>
-          <NumberandIBtn>
-            <ErunScoreNumber>{erunScore}</ErunScoreNumber>
-            <IBtn onClick={clickErunScore}>
-              <img src={iButton} alt="info" width={16} />
-            </IBtn>
-          </NumberandIBtn>
+              <CountContainer>
+                <Count>
+                  <GrayBar />
+                  <YellowBar />
+                </Count>
+                <Count>
+                  <GrayBar />
+                  <YellowBar />
+                </Count>
+                <Count>
+                  <GrayBar />
+                  <YellowBar />
+                </Count>
+              </CountContainer>
+            </TagCount>
+            <NumberandIBtn>
+              <ErunScoreNumber>{erunScore}</ErunScoreNumber>
+              <IBtn onClick={clickErunScore}>
+                <img src={iButton} alt="info" width={16} />
+              </IBtn>
+            </NumberandIBtn>
 
-          <RateHeader>이런 Score</RateHeader>
-        </SummaryBox>
+            <RateHeader>이런 Score</RateHeader>
+          </SummaryBox>
+        )}
       </ReviewContent>
     </ReviewCardContainer>
   );

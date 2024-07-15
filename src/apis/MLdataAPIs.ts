@@ -1,4 +1,4 @@
-import mockdata from "./MockData.json";
+import axios from "axios";
 
 interface Tag {
   id: number;
@@ -7,12 +7,16 @@ interface Tag {
   tag3: string;
 }
 
-const getTagPOI = (id: number | null): Promise<Tag> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(mockdata.tags);
-    }, 100);
-  });
+const getTagPOI = async (id: number | null): Promise<Tag> => {
+  let url = `http://localhost:5000/api/place/search?id=${id}`;
+  try {
+    const res = await axios.get(encodeURI(url));
+    const data = res.data.result;
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
 };
 
 export default getTagPOI;
