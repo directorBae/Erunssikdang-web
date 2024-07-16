@@ -16,9 +16,7 @@ interface Comments {
 
 const getComments = async (id: number | null): Promise<Comments[]> => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/comment/get?id=${id}`
-    );
+    const res = await axios.get(`/api/comment/get?id=${id}`);
     const data = res.data;
     return data.result;
   } catch (err) {
@@ -35,12 +33,9 @@ const getReply = (id: number | null): Promise<Comments[]> => {
 
 const postCommentData = async (comment: Comments) => {
   try {
-    const res = await axios.post(
-      `http://localhost:5000/api/comment/post?id=${comment.place_id}`,
-      {
-        data: comment,
-      }
-    );
+    const res = await axios.post(`/api/comment/post?id=${comment.place_id}`, {
+      data: comment,
+    });
     const data = res.data;
     return data.result;
   } catch (err) {

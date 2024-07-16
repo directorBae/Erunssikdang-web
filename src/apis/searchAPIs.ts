@@ -9,7 +9,7 @@ interface Place {
 }
 
 const SearchAPI = async (query: string | null): Promise<Place[]> => {
-  let url = `http://localhost:5000/api/place/search?keyword=${query}`;
+  let url = `/api/place/search?keyword=${query}`;
   try {
     const res = await axios.get(encodeURI(url));
     const data = res.data.result;

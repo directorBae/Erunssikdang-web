@@ -8,7 +8,7 @@ interface Tag {
 }
 
 const getTagPOI = async (id: number | null): Promise<Tag> => {
-  let url = `http://localhost:5000/api/place/search?id=${id}`;
+  let url = `/api/place/search?id=${id}`;
   try {
     const res = await axios.get(encodeURI(url));
     const data = res.data.result;

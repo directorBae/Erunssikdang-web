@@ -14,7 +14,7 @@ interface Place {
 
 const getPlacePOI = async (id: number | null): Promise<Place> => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/place/get?id=${id}`);
+    const res = await axios.get(`/api/place/get?id=${id}`);
     const data = res.data.result;
     return data[0];
   } catch (err) {
