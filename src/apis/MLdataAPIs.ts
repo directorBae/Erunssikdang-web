@@ -1,7 +1,7 @@
 import axios from "axios";
-import { isDev } from "../configs/mode";
+import configJson from "../configs/config.json";
 
-const baseUrl = isDev ? "http://localhost:5000" : "";
+const baseUrl = configJson.isDev ? "http://localhost:5000" : "";
 
 interface Tag {
   id: number;
