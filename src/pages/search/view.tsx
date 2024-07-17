@@ -3,9 +3,9 @@ import MenuBar from "../../components/menubar";
 import PlaceBox from "../../components/PlaceBox";
 import ScrollBox from "../../components/scrollbox";
 import { useSearchParams } from "react-router-dom";
-import SearchAPI from "../../apis/searchAPIs";
 import { observer } from "mobx-react";
 import styled from "styled-components";
+import NoContents from "../../components/NoContents";
 
 interface SearchViewProps {
   vm: any;
@@ -56,25 +56,18 @@ const PlaceAddButton = styled.button`
 
 const SearchView = observer(({ vm }: SearchViewProps) => {
   const [searchParams] = useSearchParams();
-  const [loading, setLoading] = useState(false);
-  const query = searchParams.get("query");
-
+  const keywordString = searchParams.get("query");
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const data = await SearchAPI(query);
-      vm.setData(data);
-      setLoading(false);
-    };
+    vm.initialize(keywordString);
+  }, [vm, keywordString]);
 
-    fetchData();
-  }, [searchParams, vm, query]);
+  useEffect(() => {}, [searchParams, vm, keywordString]);
 
   return (
     <div>
       <MenuBar vm={vm} />
       <ScrollBox>
-        {loading ? (
+        {vm.loading ? (
           <div
             style={{
               width: "100%",
@@ -89,11 +82,11 @@ const SearchView = observer(({ vm }: SearchViewProps) => {
         ) : (
           <div>
             <SubBar>
-              <WhatSearched>{`"${query}" 검색 결과`}</WhatSearched>
+              <WhatSearched>{`"${keywordString}" 검색 결과`}</WhatSearched>
               <PlaceAddButton>장소 추가</PlaceAddButton>
             </SubBar>
 
-            {vm.data &&
+            {vm.data ? (
               vm.data.map((place: any) => (
                 <ScrollBox>
                   <PlaceBox
@@ -107,7 +100,10 @@ const SearchView = observer(({ vm }: SearchViewProps) => {
                     moveTo={vm.moveTo}
                   />
                 </ScrollBox>
-              ))}
+              ))
+            ) : (
+              <NoContents page="search" />
+            )}
           </div>
         )}
       </ScrollBox>

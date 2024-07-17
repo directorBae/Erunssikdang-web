@@ -1,4 +1,7 @@
 import axios from "axios";
+import { isDev } from "../configs/mode";
+
+const baseUrl = isDev ? "http://localhost:5000" : "";
 
 interface Comments {
   id: number;
@@ -16,7 +19,7 @@ interface Comments {
 
 const getComments = async (id: number | null): Promise<Comments[]> => {
   try {
-    const res = await axios.get(`/api/comment/get?id=${id}`);
+    const res = await axios.get(`${baseUrl}/api/comment/get?id=${id}`);
     const data = res.data;
     return data.result;
   } catch (err) {
@@ -33,9 +36,12 @@ const getReply = (id: number | null): Promise<Comments[]> => {
 
 const postCommentData = async (comment: Comments) => {
   try {
-    const res = await axios.post(`/api/comment/post?id=${comment.place_id}`, {
-      data: comment,
-    });
+    const res = await axios.post(
+      `${baseUrl}/api/comment/post?id=${comment.place_id}`,
+      {
+        data: comment,
+      }
+    );
     const data = res.data;
     return data.result;
   } catch (err) {
@@ -44,5 +50,27 @@ const postCommentData = async (comment: Comments) => {
   }
 };
 
-export { getComments, getReply, postCommentData };
+const pushGood = async (id: number) => {
+  try {
+    const res = await axios.get(`${baseUrl}/api/comment/pushgood?id=${id}`);
+    const data = res.data;
+    return data.result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const pushBad = async (id: number) => {
+  try {
+    const res = await axios.get(`${baseUrl}/api/comment/pushbad?id=${id}`);
+    const data = res.data;
+    return data.result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export { getComments, getReply, postCommentData, pushGood, pushBad };
 export type { Comments };

@@ -1,4 +1,7 @@
 import axios from "axios";
+import { isDev } from "../configs/mode";
+
+const baseUrl = isDev ? "http://localhost:5000" : "";
 
 interface Place {
   id: number;
@@ -14,7 +17,7 @@ interface Place {
 
 const getPlacePOI = async (id: number | null): Promise<Place> => {
   try {
-    const res = await axios.get(`/api/place/get?id=${id}`);
+    const res = await axios.get(`${baseUrl}/api/place/get?id=${id}`);
     const data = res.data.result;
     return data[0];
   } catch (err) {

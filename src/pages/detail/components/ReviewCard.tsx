@@ -21,8 +21,8 @@ const SkullImage = styled.img`
   height: 30px;
 
   @media (max-width: 480px) {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
   }
 `;
 
@@ -102,7 +102,8 @@ const SummaryBox = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 45%;
+    width: 100%;
+    padding: 0px 10px;
   }
 `;
 
@@ -131,7 +132,7 @@ const AvgRating = styled.div`
   }
 
   @media (max-width: 480px) {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 10px;
   }
 `;

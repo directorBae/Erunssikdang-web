@@ -1,7 +1,12 @@
 import { makeAutoObservable } from "mobx";
 import { routerStore } from "../../routes/routes";
 import getPlacePOI from "../../apis/placePOIAPIs";
-import { getComments, postCommentData } from "../../apis/actionsAPIs";
+import {
+  getComments,
+  postCommentData,
+  pushGood,
+  pushBad,
+} from "../../apis/actionsAPIs";
 import { Comments } from "../../apis/actionsAPIs";
 
 class DetailViewModel {
@@ -54,6 +59,7 @@ class DetailViewModel {
       })
       .catch((error) => {
         console.error("Error:", error);
+        this.setLoading(false);
       });
   };
 
@@ -75,6 +81,7 @@ class DetailViewModel {
 
   setQuery = (query: string) => {
     this.query = query;
+    console.log(this.query);
   };
 
   setWhatIsErunScore = () => {
@@ -140,6 +147,27 @@ class DetailViewModel {
 
   initialize = (id: number) => {
     this.setData(id);
+  };
+
+  fetchGood = async (id: number) => {
+    const res = await pushGood(id);
+    this.commentInitialize();
+    return res;
+  };
+
+  fetchBad = async (id: number) => {
+    const res = await pushBad(id);
+    this.commentInitialize();
+    return res;
+  };
+
+  setCommentData = async (id: number) => {
+    const comments = await getComments(id);
+    return comments;
+  };
+
+  commentInitialize = async () => {
+    this.setComments(await this.setCommentData(this.data.id));
   };
 }
 

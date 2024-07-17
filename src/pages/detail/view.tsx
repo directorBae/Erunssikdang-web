@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import WhatIsErunScore from "./components/WhatIsErunScore";
 import { observer } from "mobx-react";
 import CommentInputSection from "./components/CommentInput";
+import NoContents from "../../components/NoContents";
 
 const FullWidth = styled.div`
   width: 100vw;
@@ -88,6 +89,34 @@ interface DetailViewProps {
   vm: any;
 }
 
+const ObservableCommentSection = observer(({ vm }: { vm: any }) => {
+  useEffect(() => {
+    vm.commentInitialize();
+  }, [vm]);
+
+  return (
+    <CommentSection>
+      {vm.comments &&
+        (vm.comments as any[]).map((comment) => (
+          <CommentBox
+            key={comment.id}
+            id={comment.id}
+            writer={comment.writer}
+            date={comment.date}
+            content={comment.content}
+            image={comment.image}
+            rate={comment.rate}
+            good={comment.good}
+            bad={comment.bad}
+            num_reply={comment.num_reply}
+            clickGood={vm.fetchGood}
+            clickBad={vm.fetchBad}
+          />
+        ))}
+    </CommentSection>
+  );
+});
+
 const DetailView = observer(({ vm }: DetailViewProps) => {
   const [searchParams] = useSearchParams();
   const idString = searchParams.get("id");
@@ -114,54 +143,43 @@ const DetailView = observer(({ vm }: DetailViewProps) => {
       ) : (
         <FullWidth>
           <ContentsSection>
-            {vm.data && (
-              <PlaceCard
-                name={vm.data.name}
-                rate={vm.data.avg_rate}
-                x={vm.data.x}
-                y={vm.data.y}
-                address={vm.data.address}
-                runtime={vm.data.runtime}
-                image={vm.data.image}
-              />
+            {vm.data ? (
+              <>
+                <PlaceCard
+                  name={vm.data.name}
+                  rate={vm.data.avg_rate}
+                  x={vm.data.x}
+                  y={vm.data.y}
+                  address={vm.data.address}
+                  runtime={vm.data.runtime}
+                  image={vm.data.image}
+                />
+
+                <ReviewCard
+                  rate={vm.data.avg_rate}
+                  erunScore={vm.data.erunScore}
+                  tags={vm.tags}
+                  clickErunScore={() => vm.setWhatIsErunScore()}
+                />
+
+                <CommentInputSection
+                  $isWriting={vm.isWriting}
+                  givenRate={vm.givenRate}
+                  changeState={vm.setWriting}
+                  imageAddClick={vm.imageAddClick}
+                  handleImageChange={vm.handleImageChange}
+                  setGivenRate={vm.setGivenRate}
+                  submitComment={() => vm.submitComment(id)}
+                  commentValue={vm.writingComment}
+                  setCommentValue={vm.setWritingComment}
+                />
+                <ObservableCommentSection vm={vm} />
+              </>
+            ) : (
+              <NoContents page={"detail"} />
             )}
-            {vm.data && (
-              <ReviewCard
-                rate={vm.data.avg_rate}
-                erunScore={vm.data.erunScore}
-                tags={vm.tags}
-                clickErunScore={() => vm.setWhatIsErunScore()}
-              />
-            )}
-            <CommentInputSection
-              $isWriting={vm.isWriting}
-              givenRate={vm.givenRate}
-              changeState={vm.setWriting}
-              imageAddClick={vm.imageAddClick}
-              handleImageChange={vm.handleImageChange}
-              setGivenRate={vm.setGivenRate}
-              submitComment={() => vm.submitComment(id)}
-              commentValue={vm.writingComment}
-              setCommentValue={vm.setWritingComment}
-            />
-            <CommentSection>
-              {vm.comments &&
-                (vm.comments as any[]).map((comment) => (
-                  <CommentBox
-                    key={comment.id}
-                    id={comment.id}
-                    writer={comment.writer}
-                    date={comment.date}
-                    content={comment.content}
-                    image={comment.image}
-                    rate={comment.rate}
-                    good={comment.good}
-                    bad={comment.bad}
-                    num_reply={comment.num_reply}
-                  />
-                ))}
-            </CommentSection>
           </ContentsSection>
+
           <ReplySectionContainer>
             <WhatIsErunScore show={vm.whatIsErunScore} />
           </ReplySectionContainer>

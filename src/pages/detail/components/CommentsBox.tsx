@@ -43,7 +43,7 @@ const WriterInfos = styled.div`
   flex-direction: column;
 
   @media (max-width: 480px) {
-    width: 30%;
+    width: 100%;
   }
 `;
 
@@ -219,6 +219,8 @@ interface CommentProps {
   good: number;
   bad: number;
   num_reply: number;
+  clickGood: (id: number) => void;
+  clickBad: (id: number) => void;
 }
 
 const CommentBox = ({
@@ -231,6 +233,8 @@ const CommentBox = ({
   good,
   bad,
   num_reply,
+  clickGood,
+  clickBad,
 }: CommentProps) => {
   const filledSkulls = Array(rate).fill(<SkullImage src={SkullFilled} />);
   const emptySkulls = Array(5 - rate).fill(<SkullImage src={SkullIcon} />);
@@ -266,18 +270,26 @@ const CommentBox = ({
       </CommentImagesBox>
       <BottomBar>
         <GoodButtonContainer>
-          <FingerImage src={GoodFinger} alt="good" />
+          <FingerImage
+            src={GoodFinger}
+            alt="good"
+            onClick={() => clickGood(id)}
+          />
           <ReactionNumber>{good}</ReactionNumber>
         </GoodButtonContainer>
         <BadButtonContainer>
-          <FingerImage src={BadFinger} alt="good" />
+          <FingerImage
+            src={BadFinger}
+            alt="good"
+            onClick={() => clickBad(id)}
+          />
           <ReactionNumber>{bad}</ReactionNumber>
         </BadButtonContainer>
         <div style={{ width: "40%" }}></div>
-        <ReplyButtonContainer>
+        {/* <ReplyButtonContainer>
           <ReplyHead>대댓글</ReplyHead>
           <ReactionNumber>{num_reply}</ReactionNumber>
-        </ReplyButtonContainer>
+        </ReplyButtonContainer> */}
       </BottomBar>
     </CommentContainer>
   );

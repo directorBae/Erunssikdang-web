@@ -32,15 +32,17 @@ const CommentsInputContainer = styled.div`
 const InputandButton = styled.div`
   display: flex;
   flex-direction: row;
+  height: 50px;
 
   @media (max-width: 480px) {
     flex-direction: column;
+    height: auto;
   }
 `;
 
 const CommentsContainer = styled(animated.div)<{ $isWriting: boolean }>`
   width: 450px;
-  height: 40px;
+  height: 45px;
 
   box-sizing: border-box;
 
@@ -198,6 +200,26 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
+const Instructions = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  color: #242424;
+
+  margin: 5px 0px;
+  @media (max-width: 480px) {
+    font-size: 8px;
+    align-items: flex-end;
+    white-space: pre-wrap;
+    text-align: right;
+  }
+`;
+
 const ImageContainer = styled(animated.div)`
   width: 100%;
   height: 160px;
@@ -318,7 +340,13 @@ const CommentInputSection = ({
               onChange={handleImageChange}
             />
           </BottomBar>
+          <Instructions>
+            {
+              "한 번 작성한 댓글은 수정 및 삭제가 불가능합니다.\n신중하게 작성해주세요."
+            }
+          </Instructions>
         </CommentsContainer>
+
         <CommentsButton onClick={() => submitComment()}>
           리뷰쓰기
         </CommentsButton>

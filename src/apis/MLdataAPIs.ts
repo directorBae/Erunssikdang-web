@@ -1,4 +1,7 @@
 import axios from "axios";
+import { isDev } from "../configs/mode";
+
+const baseUrl = isDev ? "http://localhost:5000" : "";
 
 interface Tag {
   id: number;
@@ -8,7 +11,7 @@ interface Tag {
 }
 
 const getTagPOI = async (id: number | null): Promise<Tag> => {
-  let url = `/api/place/search?id=${id}`;
+  let url = `${baseUrl}/api/place/search?id=${id}`;
   try {
     const res = await axios.get(encodeURI(url));
     const data = res.data.result;

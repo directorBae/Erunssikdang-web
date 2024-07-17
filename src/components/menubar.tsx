@@ -82,6 +82,15 @@ const IconImage = styled.img`
   cursor: pointer;
 `;
 
+const SearchForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+`;
+
 interface SearchBoxProps {
   value: string;
   setValue: (value: string) => void;
