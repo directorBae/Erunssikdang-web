@@ -49,5 +49,6 @@
   },
   "devDependencies": {
     "ajv": "^8.16.0"
-  }
+  },
+  "type": "module"
 }
