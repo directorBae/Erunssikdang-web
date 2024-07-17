@@ -22,7 +22,7 @@ jobs:
           node-version: "21"
 
       - name: Update config file
-        run: node update-config.js
+        run: node update-config.ts
 
       - name: Install dependencies and build
         run: |
